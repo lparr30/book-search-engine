@@ -1,12 +1,17 @@
 const express = require('express');
 
-const PORT = 3001;
 
+const db = require('./config/connection');
+
+const PORT = 3001;
 const app = express();
 
 app.use(express.static());
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(PORT, () => {
-    console.log(`server listening to port ${PORT}`);
+db.once('open', () => {
+    console.log('connected to database')
+    app.listen(PORT, () => {
+        console.log(`server listening to port ${PORT}`);
+    })
 })
